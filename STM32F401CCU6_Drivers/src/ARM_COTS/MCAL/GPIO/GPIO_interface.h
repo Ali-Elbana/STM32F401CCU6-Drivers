@@ -6,6 +6,29 @@
 #ifndef _GPIO_interface_H
 #define _GPIO_interface_H
 
+typedef struct
+{
+
+	u8 Port ;
+
+	u8 Pin 	;
+
+	u8 Mode ;
+
+	u8 OutputType ;
+
+	u8 OutputSpeed ;
+
+	u8 InputType ;
+
+	u8 AF_Type ;
+
+}MGPIOx_ConfigType;
+
+
+
+
+
 
 void MGPIOx_vSetPinMode( u8 A_u8PortID, u8 A_u8PinID,
 						 u8 A_u8Mode ) ;
@@ -31,6 +54,9 @@ void MGPIOx_vSetAlternateFunctionON( u8 A_u8PortID, u8 A_u8PinID,
 	  	   	   	   	   	   	   	   	 u8 A_u8AFID ) ;
 
 void MGPIOx_vSetPortConfigLock( u8 A_u8PortID ) ;
+
+void MGPIOx_vInit( MGPIOx_ConfigType* A_xPinConfig ) ;
+
 
 
 

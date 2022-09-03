@@ -36,4 +36,12 @@
 
 
 
+
+
+
+#define My_ms_Delay(T)   do{ u32 Timer = (T*500); while(Timer--){asm ("nop");} }while(0);
+
+
+
+
 #endif
