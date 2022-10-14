@@ -28,8 +28,11 @@ void MEXTI_vSWITrigger( u8 A_u8LineID ) ;
 
 void MEXTI_vSetTrigger( u8 A_u8LineID,  u8 A_u8TriggerStatus ) ;
 
+void EXTI_vSetCallback( u8 A_u8LineID, void (*A_vFptr) (void) ) ;
 
 void MEXTI_vInit_WithStruct( EXTI_ConfigType* A_xConfig ) ;
+
+void MSYSCFG_vSetEXTIPort( u8 A_u8LineID, u8 A_u8PortID ) ;
 
 
 

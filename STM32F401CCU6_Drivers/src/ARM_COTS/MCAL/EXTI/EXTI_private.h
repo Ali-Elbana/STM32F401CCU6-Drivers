@@ -43,7 +43,7 @@ typedef struct
 #define DISABLE	2
 
 
-
+#define EXTI_IRQs 23
 
 
 

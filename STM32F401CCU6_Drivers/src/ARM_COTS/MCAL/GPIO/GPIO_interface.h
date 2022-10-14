@@ -9,25 +9,21 @@
 typedef struct
 {
 
-	u8 Port ;
+	u8 Port 		;
 
-	u8 Pin 	;
+	u8 Pin 			;
 
-	u8 Mode ;
+	u8 Mode 		;
 
-	u8 OutputType ;
+	u8 OutputType 	;
 
-	u8 OutputSpeed ;
+	u8 OutputSpeed 	;
 
-	u8 InputType ;
+	u8 InputType 	;
 
-	u8 AF_Type ;
+	u8 AF_Type 		;
 
 }MGPIOx_ConfigType;
-
-
-
-
 
 
 void MGPIOx_vSetPinMode( u8 A_u8PortID, u8 A_u8PinID,
@@ -57,7 +53,7 @@ void MGPIOx_vSetPortConfigLock( u8 A_u8PortID ) ;
 
 void MGPIOx_vInit( MGPIOx_ConfigType* A_xPinConfig ) ;
 
-
+void MGPIOx_vTogglePinValue( u8 A_u8PortID, u8 A_u8PinID ) ;
 
 
 #define GPIOx_MODE_INPUT 	0b00
@@ -65,9 +61,9 @@ void MGPIOx_vInit( MGPIOx_ConfigType* A_xPinConfig ) ;
 #define GPIOx_MODE_AF		0b10
 #define GPIOx_MODE_ANALOG	0b11
 
-#define GPIO_PORTA 1
-#define GPIO_PORTB 2
-#define GPIO_PORTC 3
+#define GPIO_PORTA 0
+#define GPIO_PORTB 1
+#define GPIO_PORTC 2
 
 #define GPIOx_OPENDRAIN 1
 #define GPIOx_PUSHPULL  2
@@ -84,7 +80,6 @@ void MGPIOx_vInit( MGPIOx_ConfigType* A_xPinConfig ) ;
 
 #define GPIOx_HIGH 1
 #define GPIOx_LOW  2
-
 
 
 
@@ -106,7 +101,22 @@ void MGPIOx_vInit( MGPIOx_ConfigType* A_xPinConfig ) ;
 #define GPIOx_PIN15 15
 
 
-
+#define GPIOx_AF0  0
+#define GPIOx_AF1  1
+#define GPIOx_AF2  2
+#define GPIOx_AF3  3
+#define GPIOx_AF4  4
+#define GPIOx_AF5  5
+#define GPIOx_AF6  6
+#define GPIOx_AF7  7
+#define GPIOx_AF8  8
+#define GPIOx_AF9  9
+#define GPIOx_AF10 10
+#define GPIOx_AF11 11
+#define GPIOx_AF12 12
+#define GPIOx_AF13 13
+#define GPIOx_AF14 14
+#define GPIOx_AF15 15
 
 
 

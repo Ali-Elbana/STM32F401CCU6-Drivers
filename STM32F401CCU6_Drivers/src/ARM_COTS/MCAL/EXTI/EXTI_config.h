@@ -25,7 +25,7 @@
  * EXTI_RisingEdge	,
  * EXTI_OnChange
  */
-#define EXTI_LINE0_TRIGGER EXTI_RisingEdge
+#define EXTI_LINE0_TRIGGER EXTI_FallingEdge
 
 /**********************************************************************************/
 
@@ -276,7 +276,7 @@
  * EXTI_RisingEdge	,
  * EXTI_OnChange
  */
-#define EXTI_LINE14_TRIGGER EXTI_RisingEdge
+#define EXTI_LINE14_TRIGGER EXTI_OnChange
 
 /**********************************************************************************/
 

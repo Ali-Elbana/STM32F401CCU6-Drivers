@@ -11,10 +11,26 @@
 #include "EXTI_interface.h"
 #include "EXTI_private.h"
 #include "EXTI_config.h"
+#include "SYSCFG_private.h"
+
+static void ( *GS_vEXTI_Callback[EXTI_IRQs] ) ( void ) = { NULL } ;
+
+static u8 GS_u8EXTI_EnabledLine_ID = Initialized_by_Zero ;
 
 
+/*******************************************************************************************************************/
+/******************************************************************************************************************/
 
+void MSYSCFG_vSetEXTIPort( u8 A_u8LineID, u8 A_u8PortID )
+{
 
+	u8 L_u8Index 		= A_u8LineID / 4 ;
+	u8 L_u8ShiftAmount 	= A_u8LineID % 4 ;
+
+	CLR_BITs( MSYSCFG->EXTICR[L_u8Index], 0b1111, L_u8ShiftAmount, 4 ) ;
+	SET_BITs( MSYSCFG->EXTICR[L_u8Index], A_u8PortID, L_u8ShiftAmount, 4 ) ;
+
+}
 
 /*******************************************************************************************************************/
 /******************************************************************************************************************/
@@ -23,7 +39,6 @@ void MEXTI_vInit( void )
 {
 
 	u8 L_u8ShiftedOffset = Initialized_by_Zero ;
-
 
 	#if EXTI_LINE0_EN == ENABLE
 
@@ -92,6 +107,9 @@ void MEXTI_vInit( void )
 
 
 	#endif
+
+	// Get the enabled line ID.
+	GS_u8EXTI_EnabledLine_ID = L_u8ShiftedOffset ;
 
 	// Clear all flags.
 	MEXTI->PR = 0xffffffff ;
@@ -363,6 +381,8 @@ void MEXTI_vEnableLine( u8 A_u8LineID,  u8 A_u8TriggerStatus )
 
 	}
 
+	// Get the enabled line ID.
+	GS_u8EXTI_EnabledLine_ID = A_u8LineID ;
 
 }
 
@@ -394,6 +414,9 @@ void MEXTI_vSWITrigger( u8 A_u8LineID )
 
 	}
 
+	// Get the enabled line ID.
+	GS_u8EXTI_EnabledLine_ID = A_u8LineID ;
+
 }
 
 /*******************************************************************************************************************/
@@ -424,6 +447,43 @@ void MEXTI_vSetTrigger( u8 A_u8LineID,  u8 A_u8TriggerStatus )
 
 		}
 
+	}
+
+	// Get the enabled line ID.
+	GS_u8EXTI_EnabledLine_ID = A_u8LineID ;
+
+}
+
+/*******************************************************************************************************************/
+/******************************************************************************************************************/
+
+void EXTI_vSetCallback( u8 A_u8LineID, void (*A_vFptr) (void) )
+{
+
+	if( A_u8LineID <= 23 )
+	{
+
+		switch( A_u8LineID )
+		{
+
+			case EXTI_LINE0 : GS_vEXTI_Callback[EXTI_LINE0 ] = A_vFptr ; break;
+			case EXTI_LINE1 : GS_vEXTI_Callback[EXTI_LINE1 ] = A_vFptr ; break;
+			case EXTI_LINE2 : GS_vEXTI_Callback[EXTI_LINE2 ] = A_vFptr ; break;
+			case EXTI_LINE3 : GS_vEXTI_Callback[EXTI_LINE3 ] = A_vFptr ; break;
+			case EXTI_LINE4 : GS_vEXTI_Callback[EXTI_LINE4 ] = A_vFptr ; break;
+			case EXTI_LINE5 : GS_vEXTI_Callback[EXTI_LINE5 ] = A_vFptr ; break;
+			case EXTI_LINE6 : GS_vEXTI_Callback[EXTI_LINE6 ] = A_vFptr ; break;
+			case EXTI_LINE7 : GS_vEXTI_Callback[EXTI_LINE7 ] = A_vFptr ; break;
+			case EXTI_LINE8 : GS_vEXTI_Callback[EXTI_LINE8 ] = A_vFptr ; break;
+			case EXTI_LINE9 : GS_vEXTI_Callback[EXTI_LINE9 ] = A_vFptr ; break;
+			case EXTI_LINE10: GS_vEXTI_Callback[EXTI_LINE10] = A_vFptr ; break;
+			case EXTI_LINE11: GS_vEXTI_Callback[EXTI_LINE11] = A_vFptr ; break;
+			case EXTI_LINE12: GS_vEXTI_Callback[EXTI_LINE12] = A_vFptr ; break;
+			case EXTI_LINE13: GS_vEXTI_Callback[EXTI_LINE13] = A_vFptr ; break;
+			case EXTI_LINE14: GS_vEXTI_Callback[EXTI_LINE14] = A_vFptr ; break;
+			case EXTI_LINE15: GS_vEXTI_Callback[EXTI_LINE15] = A_vFptr ; break;
+
+		}
 
 	}
 
@@ -432,18 +492,21 @@ void MEXTI_vSetTrigger( u8 A_u8LineID,  u8 A_u8TriggerStatus )
 /*******************************************************************************************************************/
 /******************************************************************************************************************/
 
+void EXTI0_IRQHandler( void )
+{
 
+	if( GS_vEXTI_Callback[EXTI_LINE0] != NULL )
+	{
+		GS_vEXTI_Callback[EXTI_LINE0](  ) ;
+	}
 
+	// Clear the flag.
+	SET_BIT( MEXTI->PR, EXTI_LINE0 ) ;
 
+}
 
-
-
-
-
-
-
-
-
+/*******************************************************************************************************************/
+/******************************************************************************************************************/
 
 
 

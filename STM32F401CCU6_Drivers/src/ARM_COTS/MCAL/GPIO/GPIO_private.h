@@ -17,25 +17,25 @@
 typedef struct
 {
 
-	u32 MODERx 	;
+	u32 MODERx 		;
 
 	u32 OTYPERx 	;
 
-	u32 OSPEEDRx ;
+	u32 OSPEEDRx 	;
 
-	u32 PUPDRx 	;
+	u32 PUPDRx 		;
 
 	u32 IDRx		;
 
 	u32 ODRx		;
 
-	u32 BSRRx	;
+	u32 BSRRx		;
 
-	u32 LCKRx	;
+	u32 LCKRx		;
 
-	u32 AFRLx	;
+	u32 AFRLx		;
 
-	u32 AFRHx	;
+	u32 AFRHx		;
 
 
 } GPIOx_MemoryMapType ;

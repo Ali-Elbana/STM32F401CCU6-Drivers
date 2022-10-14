@@ -324,9 +324,123 @@ void MGPIOx_vSetResetPinValue( u8 A_u8PortID, u8 A_u8PinID, u8 A_u8SetResetPinVa
 void MGPIOx_vSetAlternateFunctionON( u8 A_u8PortID, u8 A_u8PinID, u8 A_u8AFID )
 {
 
+	switch( A_u8PortID )
+	{
+
+		case GPIO_PORTA:
+
+			switch( A_u8PinID )
+			{
+
+				case GPIOx_PIN0 :
+				case GPIOx_PIN1 :
+				case GPIOx_PIN2 :
+				case GPIOx_PIN3 :
+				case GPIOx_PIN4 :
+				case GPIOx_PIN5 :
+				case GPIOx_PIN6 :
+				case GPIOx_PIN7 :
+
+					CLR_BITs( GPIOA->AFRLx, 0b1111, A_u8PinID, 4 ) ;
+					SET_BITs( GPIOA->AFRLx, A_u8AFID, A_u8PinID, 4 ) ;
+
+				break ;
+
+				case GPIOx_PIN8  :
+				case GPIOx_PIN9  :
+				case GPIOx_PIN10 :
+				case GPIOx_PIN11 :
+				case GPIOx_PIN12 :
+				case GPIOx_PIN13 :
+				case GPIOx_PIN14 :
+				case GPIOx_PIN15 :
+
+					CLR_BITs( GPIOA->AFRHx, 0b1111, A_u8PinID, 4 ) ;
+					SET_BITs( GPIOA->AFRHx, A_u8AFID, A_u8PinID, 4 ) ;
+
+				break ;
+
+			}
+
+		break ;
 
 
+		case GPIO_PORTB:
 
+			switch( A_u8PinID )
+			{
+
+				case GPIOx_PIN0 :
+				case GPIOx_PIN1 :
+				case GPIOx_PIN2 :
+				case GPIOx_PIN3 :
+				case GPIOx_PIN4 :
+				case GPIOx_PIN5 :
+				case GPIOx_PIN6 :
+				case GPIOx_PIN7 :
+
+					CLR_BITs( GPIOB->AFRLx, 0b1111, A_u8PinID, 4 ) ;
+					SET_BITs( GPIOB->AFRLx, A_u8AFID, A_u8PinID, 4 ) ;
+
+					break ;
+
+				case GPIOx_PIN8  :
+				case GPIOx_PIN9  :
+				case GPIOx_PIN10 :
+				case GPIOx_PIN11 :
+				case GPIOx_PIN12 :
+				case GPIOx_PIN13 :
+				case GPIOx_PIN14 :
+				case GPIOx_PIN15 :
+
+					CLR_BITs( GPIOB->AFRHx, 0b1111, A_u8PinID-8, 4 ) ;
+					SET_BITs( GPIOB->AFRHx, A_u8AFID, A_u8PinID-8, 4 ) ;
+
+					break ;
+
+			}
+
+		break ;
+
+
+		case GPIO_PORTC:
+
+			switch( A_u8PinID )
+			{
+
+				case GPIOx_PIN0 :
+				case GPIOx_PIN1 :
+				case GPIOx_PIN2 :
+				case GPIOx_PIN3 :
+				case GPIOx_PIN4 :
+				case GPIOx_PIN5 :
+				case GPIOx_PIN6 :
+				case GPIOx_PIN7 :
+
+					CLR_BITs( GPIOC->AFRLx, 0b1111, A_u8PinID, 4 ) ;
+					SET_BITs( GPIOC->AFRLx, A_u8AFID, A_u8PinID, 4 ) ;
+
+					break ;
+
+				case GPIOx_PIN8  :
+				case GPIOx_PIN9  :
+				case GPIOx_PIN10 :
+				case GPIOx_PIN11 :
+				case GPIOx_PIN12 :
+				case GPIOx_PIN13 :
+				case GPIOx_PIN14 :
+				case GPIOx_PIN15 :
+
+					CLR_BITs( GPIOC->AFRHx, 0b1111, A_u8PinID, 4 ) ;
+					SET_BITs( GPIOC->AFRHx, A_u8AFID, A_u8PinID, 4 ) ;
+
+					break ;
+
+			}
+
+		break ;
+
+	}
 
 }
 
@@ -336,22 +450,53 @@ void MGPIOx_vSetAlternateFunctionON( u8 A_u8PortID, u8 A_u8PinID, u8 A_u8AFID )
 void MGPIOx_vInit( MGPIOx_ConfigType* A_xPinConfig )
 {
 
-	MGPIOx_vSetPinMode			( A_xPinConfig->Port, A_xPinConfig->Pin, A_xPinConfig->Mode ) ;
+	MGPIOx_vSetPinMode			  ( A_xPinConfig->Port, A_xPinConfig->Pin, A_xPinConfig->Mode 		 ) ;
 
-	MGPIOx_vSetPinOutputType   	( A_xPinConfig->Port, A_xPinConfig->Pin, A_xPinConfig->OutputType ) ;
+	MGPIOx_vSetPinOutputType   	  ( A_xPinConfig->Port, A_xPinConfig->Pin, A_xPinConfig->OutputType  ) ;
 
-	MGPIOx_vSetPinOutputSpeed  	( A_xPinConfig->Port, A_xPinConfig->Pin, A_xPinConfig->OutputSpeed ) ;
+	MGPIOx_vSetPinOutputSpeed  	  ( A_xPinConfig->Port, A_xPinConfig->Pin, A_xPinConfig->OutputSpeed ) ;
 
-	MGPIOx_vSetPinInputPullType	( A_xPinConfig->Port, A_xPinConfig->Pin, A_xPinConfig->InputType ) ;
+	MGPIOx_vSetPinInputPullType	  ( A_xPinConfig->Port, A_xPinConfig->Pin, A_xPinConfig->InputType 	 ) ;
 
-	//MGPIOx_vSetAlternateFunctionON(  ) ;
+	MGPIOx_vSetAlternateFunctionON( A_xPinConfig->Port, A_xPinConfig->Pin, A_xPinConfig->AF_Type 	 ) ;
 
 }
 
 /**************************************************************************************/
 /**************************************************************************************/
 
+void MGPIOx_vTogglePinValue( u8 A_u8PortID, u8 A_u8PinID )
+{
 
+	switch( A_u8PortID )
+	{
+
+		case GPIO_PORTA:
+
+			TOGGLE_BIT( GPIOA->ODRx, A_u8PinID ) ;
+
+		break ;
+
+
+		case GPIO_PORTB:
+
+			TOGGLE_BIT( GPIOB->ODRx, A_u8PinID ) ;
+
+		break ;
+
+
+		case GPIO_PORTC:
+
+			TOGGLE_BIT( GPIOC->ODRx, A_u8PinID ) ;
+
+		break ;
+
+	}
+
+}
+
+/**************************************************************************************/
+/**************************************************************************************/
 
 
 
