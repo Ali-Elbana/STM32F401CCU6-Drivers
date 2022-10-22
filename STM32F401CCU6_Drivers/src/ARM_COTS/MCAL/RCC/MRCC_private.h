@@ -180,8 +180,7 @@ typedef struct
 #define RCC_APB2ENR_USART1EN	4
 #define RCC_APB2ENR_TIM1EN		0
 
-
-
+#define RCC_AHB1LPENR_FLITFLPEN 15
 
 
 

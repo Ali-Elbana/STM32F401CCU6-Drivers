@@ -163,6 +163,12 @@ void MRCC_vEnablePeriphralCLK( u32 A_u32BusID, u32 A_u32PeriphralID )
 
 		break ;
 
+		case RCC_AHB1LPENR:
+
+			SET_BIT( RCC->AHB1LPENR, A_u32PeriphralID ) ;
+
+		break ;
+
 		default:
 
 			// Error wrong Bus ID

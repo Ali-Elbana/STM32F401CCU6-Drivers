@@ -9,6 +9,9 @@
 #include "ARM_COTS/MCAL/EXTI/EXTI_interface.h"
 #include "ARM_COTS/MCAL/SysTick/SysTick_interface.h"
 #include "ARM_COTS/MCAL/SPI/SPI_interface.h"
+#include "ARM_COTS/MCAL/UART/UART_interface.h"
+#include "ARM_COTS/MCAL/DMA/DMA_interface.h"
+#include "ARM_COTS/MCAL/Flash_Driver/Flash_Driver_interface.h"
 
 #include "ARM_COTS/HAL/LED_Matrix/LED_Matrix_interface.h"
 #include "ARM_COTS/HAL/TFT/TFT_interface.h"
@@ -26,7 +29,189 @@
 #define	 DAC		STOP
 #define	 IR			STOP
 #define	 SPI		STOP
-#define  TFT		RUN
+#define  TFT		STOP
+#define  UART		STOP
+#define  DMA		STOP
+#define FLASH_APP	STOP
+#define BOOT0		RUN
+
+
+
+
+#if BOOT0 == RUN
+
+int main(void)
+{
+
+	MRCC_vInit( ) ;
+
+	MRCC_vEnablePeriphralCLK( RCC_AHB1LPENR, AHB1LPENR_FLITFLPEN ) ;
+
+	u8 L_u8Record[] = ":1080000007B5FFF75FFF0F210520FFF77FFF064B71" ;
+
+	AHexParser_vParseData( L_u8Record ) ;
+
+	while( TRUE )
+	{
+
+	}
+
+}
+
+
+#endif
+
+
+
+#if FLASH_APP == RUN
+
+int main(void)
+{
+
+	MRCC_vInit( ) ;
+
+	MRCC_vEnablePeriphralCLK( RCC_AHB1LPENR, AHB1LPENR_FLITFLPEN ) ;
+
+	u16 L_u16Data[3] = { 0x30, 0x31, 0x32 } ;
+
+	MFlash_vWrite( 0x08008000, L_u16Data, 3 ) ;
+
+	while( TRUE )
+	{
+
+	}
+
+}
+
+
+#endif
+
+
+#if DMA == RUN
+
+int main(void)
+{
+	/* call init */
+	/* call setStream */
+
+	/* used by DMA */
+	u32 arr1[500];
+	u32 arr2[500];
+
+	/* used by CPU */
+	u32 arr3[500];
+	u32 arr4[500];
+
+	/* fill arr1 and arr3 with data */
+
+	/* demo starts here   */
+
+	while(1)
+	{
+
+	}
+}
+
+
+#endif
+
+
+
+#if UART == RUN
+
+int main(void)
+{
+
+	MRCC_vInit( ) ;
+
+	MRCC_vEnablePeriphralCLK( RCC_AHB1, AHB1ENR_GPIOAEN ) ;
+	MRCC_vEnablePeriphralCLK( RCC_APB2, APB2ENR_USART1EN  ) ;
+
+	MGPIOx_ConfigType TX =
+	{
+
+		.Port 			= GPIO_PORTA 			,
+
+		.Pin 			= GPIOx_PIN9 			,
+
+		.Mode 			= GPIOx_MODE_AF 		,
+
+		.OutputType 	= GPIOx_PUSHPULL 		,
+
+		.OutputSpeed 	= GPIOx_MediumSpeed 	,
+
+		.InputType 		= GPIOx_PUSHPULL		,
+
+		.AF_Type 		= GPIOx_AF7
+
+	} ;
+
+	MGPIOx_ConfigType RX =
+	{
+
+		.Port 			= GPIO_PORTA 			,
+
+		.Pin 			= GPIOx_PIN10 			,
+
+		.Mode 			= GPIOx_MODE_AF 		,
+
+		.OutputType 	= GPIOx_PUSHPULL 		,
+
+		.OutputSpeed 	= GPIOx_MediumSpeed 	,
+
+		.InputType 		= GPIOx_PUSHPULL		,
+
+		.AF_Type 		= GPIOx_AF7
+
+	} ;
+
+	MGPIOx_vInit( &TX ) ;
+	MGPIOx_vInit( &RX ) ;
+
+	USART_InitType MyUART1 =
+	{
+
+		.BaudRate  				= 9600 			,
+
+		.DataWidth 				= MODE_8BIT 	,
+
+		.StopBits  				= STOP_BIT_1 	,
+
+		.Parity_Enable 			= DISABLE 		,
+
+		.Parity_Selection 		= EVEN_PARITY 	,
+
+		.TransferDirection 		= TX_RX			,
+
+		.HardwareFlowControl 	= DISABLE 		,
+
+		.Oversampling 			= OVER_SAMPLING_16
+
+	} ;
+
+	USART_ClockInitTypeDef MyUARTCLK = { DISABLE, 0, 0, 0 } ;
+
+	// Initialization of USART1
+	MUSART_vInit( &MyUART1, &MyUARTCLK, USART1_REG ) ;
+
+	// Enable USART1
+	MUSART_vEnable( USART1_REG ) ;
+
+	// Transmit String
+	MUSART_vTransmitByte( USART1_REG, 'A' ) ;
+
+	while( TRUE )
+	{
+
+
+	}
+
+}
+
+
+#endif
+
+
 
 
 #if TFT == RUN

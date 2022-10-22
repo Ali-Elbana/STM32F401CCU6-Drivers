@@ -21,11 +21,11 @@ void MRCC_vDisablePeriphralCLK( u32 A_u32BusID, u32 A_u32PeriphralID ) ;
 
 
 // A_u32BusID options:
-#define RCC_AHB1 1
-#define RCC_AHB2 2
-#define RCC_APB1 3
-#define RCC_APB2 4
-
+#define RCC_AHB1 		1
+#define RCC_AHB2 		2
+#define RCC_APB1 		3
+#define RCC_APB2 		4
+#define RCC_AHB1LPENR 	5
 
 // A_u32PeriphralID options:
 #define AHB1ENR_DMA2EN	  22
@@ -67,7 +67,7 @@ void MRCC_vDisablePeriphralCLK( u32 A_u32BusID, u32 A_u32PeriphralID ) ;
 
 
 
-
+#define AHB1LPENR_FLITFLPEN 15
 
 
 
